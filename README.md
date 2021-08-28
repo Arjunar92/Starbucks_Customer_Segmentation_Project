@@ -1,1 +1,1 @@
-# Starbucks_Customer_Segmentation_Project
+# Udacity Data Science Nanodegree Capstone Project
