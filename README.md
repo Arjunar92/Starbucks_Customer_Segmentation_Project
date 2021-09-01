@@ -1,3 +1,3 @@
 # Udacity Data Science Nanodegree Capstone Project
 
-## Customer Segmentation
+## Customer Segmentation Starbucks
