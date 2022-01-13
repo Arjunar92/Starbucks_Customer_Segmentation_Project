@@ -64,7 +64,7 @@ def clean_portfolio(portfolio=portfolio):
     channels_df = pd.DataFrame(mlb_fit.transform(portfolio['channels']),columns=mlb_fit.classes_)
     
     #Drop the old 'channels' and 'offer_type' columns
-    portfolio = portfolio.drop(columns=['channels', 'offer_type'])
+    #portfolio = portfolio.drop(columns=['channels', 'offer_type'])
     
     #Replace the 'offertype' and 'channels' columns
     portfolio = pd.concat([portfolio, offertype, channels_df], axis=1)
@@ -94,12 +94,12 @@ def clean_profile(profile = profile):
     #profile = profile[profile['gender'] != 'O']
     profile = profile.reset_index(drop=True)
     
-    binarizerobj = LabelBinarizer()
-    profile['gender'] = binarizerobj.fit_transform(profile['gender'])
+    #binarizerobj = LabelBinarizer()
+    gender_df = pd.get_dummies(profile['gender'])
     
-    gender_integer_map = {}
-    for i in binarizerobj.classes_:
-        gender_integer_map[i] = binarizerobj.transform([i])[0,0]
+    #gender_integer_map = {}
+   # for i in binarizerobj.classes_:
+        #gender_integer_map[i] = binarizerobj.transform([i])[0,0]''''
         
         
     
@@ -123,7 +123,7 @@ def clean_profile(profile = profile):
     # Appened all the encoded variables to the main dataframe
     profile = pd.concat([profile,
                          agerange_df,
-                         membership_year_df], axis=1)
+                         membership_year_df, gender_df], axis=1)
 
     
     # Drop depcreated columns
@@ -133,8 +133,6 @@ def clean_profile(profile = profile):
                                     'membership_year'])'''
     return profile
     
-
-
 
 
 def clean_transcript(transcript =transcript):
