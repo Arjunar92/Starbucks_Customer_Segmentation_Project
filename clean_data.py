@@ -147,7 +147,7 @@ def clean_transcript(transcript =transcript):
     transcript = transcript[select_data]
     
     # Convert from hours to days
-    transcript['time'] /= 24.0    
+    transcript['time'] = transcript['time'] // 24   
     
     # Change'person' column name to 'customer_id'
     transcript = transcript.rename(columns={'time': 'time_in_days'})
@@ -175,3 +175,4 @@ def clean_transcript(transcript =transcript):
            #'received', 'viewed']]
     
     return offers,transactions 
+
