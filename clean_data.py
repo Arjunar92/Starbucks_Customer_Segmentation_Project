@@ -55,6 +55,12 @@ def clean_portfolio(portfolio=portfolio):
                  'duration':'offer_duration', 'reward': 'offer_reward'}
     portfolio  = rename_cols(portfolio, new_col_names_portfolio )
     
+    
+    #Create new column Offer name to assign a recogonizable identifyer for each of the 10 offers. 
+    new_col = {'offer_name' : ['offer_1', 'offer_2','offer_3','offer_4',
+                              'offer_5','offer_6','offer_7','offer_8','offer_9','offer_10' ]}
+    portfolio['offer_name'] = pd.DataFrame(new_col)
+    
     # One hot encode the 'offertype' column
     offertype = pd.get_dummies(portfolio['offer_type'])
     
