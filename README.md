@@ -34,11 +34,10 @@ The objective of this project is to identify different customer segments using R
 
 
 ## I. Data Wrangling
-(a). Data Loading:
-(b). Data Exploration:
-(c) Data Cleaning and Data Structuring:
-(d) Data Publishing:
-
+* Data Loading:
+* Data Exploration:
+* Data Cleaning and Data Structuring:
+* Data Publishing:
 
 ## II. Data Analysis:
 
