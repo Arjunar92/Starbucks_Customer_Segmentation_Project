@@ -53,7 +53,7 @@ def clean_portfolio(portfolio=portfolio):
     '''    
     new_col_names_portfolio = {'difficulty':'offer_difficulty' , 'id':'offer_id', 
                  'duration':'offer_duration', 'reward': 'offer_reward'}
-    portfolio  = rename_cols(portfolio, new_col_names_portfolio )
+    portfolio  = portfolio.rename(columns= new_col_names_portfolio )
     
     
     #Create new column Offer name to assign a recogonizable identifyer for each of the 10 offers. 
@@ -62,23 +62,23 @@ def clean_portfolio(portfolio=portfolio):
     portfolio['offer_name'] = pd.DataFrame(new_col)
     
     # One hot encode the 'offertype' column
-    offertype = pd.get_dummies(portfolio['offer_type'])
+    #offertype = pd.get_dummies(portfolio['offer_type'])
     
     # One hot encode the 'channels' columns
     mlb = MultiLabelBinarizer()
     mlb_fit = mlb.fit(portfolio['channels'])
     channels_df = pd.DataFrame(mlb_fit.transform(portfolio['channels']),columns=mlb_fit.classes_)
     
-    #Drop the old 'channels' and 'offer_type' columns
-    #portfolio = portfolio.drop(columns=['channels', 'offer_type'])
+    #Drop the old 'channels'
+    portfolio = portfolio.drop(columns=['channels'])
     
     #Replace the 'offertype' and 'channels' columns
-    portfolio = pd.concat([portfolio, offertype, channels_df], axis=1)
+    portfolio = pd.concat([portfolio, channels_df], axis=1)
     
     
     #Reorder the columns order
-    #portfolio = portfolio[[ 'offer_id','offer_difficulty','offer_duration','offer_reward','bogo','discount',
-    #                        'informational','email','mobile','social','web']]
+    portfolio = portfolio[[ 'offer_id','offer_name','offer_type' ,'offer_difficulty','offer_duration',
+                           'offer_reward','email','mobile','social','web']]
 
     return portfolio
 
@@ -87,7 +87,19 @@ def clean_portfolio(portfolio=portfolio):
 
 
 def clean_profile(profile = profile):
+
+    '''
+    INPUT:
+    profile - (pandas dataframe), profile data
     
+    OUTPUT:
+    portfolio - (pandas dataframe), cleaned profile data
+
+    
+    Description:
+    This function cleans the data and provides a DatFrame with cleaned profile data. 
+    '''    
+        
     #rename profile columns
     new_col_profile = {'id':'customer_id' , 'income':'customer_income'}
     profile = rename_cols(profile, new_col_profile )
@@ -101,11 +113,11 @@ def clean_profile(profile = profile):
     profile = profile.reset_index(drop=True)
     
     #binarizerobj = LabelBinarizer()
-    gender_df = pd.get_dummies(profile['gender'])
+    gender_df = pd.get_dummies(profile['gender']) 
     
     #gender_integer_map = {}
-   # for i in binarizerobj.classes_:
-        #gender_integer_map[i] = binarizerobj.transform([i])[0,0]''''
+    #for i in binarizerobj.classes_:
+      #  gender_integer_map[i] = binarizerobj.transform([i])[0,0]
         
         
     
@@ -114,6 +126,16 @@ def clean_profile(profile = profile):
     #Encode the year values
     profile['membership_year'] = profile['became_member_on'].apply(lambda elem: elem.year)
     membership_year_df = pd.get_dummies(profile['membership_year'])
+    
+    
+    #Group the Salary ranges
+    sal_labels = ['Under $25K',' $25,000 - $49,999','$50,000 - $74,999','$75,000 - $99,999', '$100K']
+    
+    profile['customer_income_range'] = pd.cut(profile['customer_income'], 
+                                                      bins=[1, 25000, 49999, 74999, 99999, 150000] , 
+                                  labels=sal_labels, include_lowest=True)
+    # Encode for Age ranges
+    salrange_df = pd.get_dummies(profile['customer_income_range'])
     
     
     #Group the age ranges
@@ -127,17 +149,23 @@ def clean_profile(profile = profile):
     
     
     # Appened all the encoded variables to the main dataframe
-    profile = pd.concat([profile,
-                         agerange_df,
-                         membership_year_df, gender_df], axis=1)
+    profile = pd.concat([profile,gender_df,
+                         agerange_df,salrange_df,
+                         membership_year_df], axis=1)
 
     
     # Drop depcreated columns
-    '''profile = profile.drop(columns=['age',
-                                    'age_group',
-                                    'became_member_on',
-                                    'membership_year'])'''
-    return profile
+    profile_da = profile[['customer_id', 'gender','age',
+            'age_group','customer_income','customer_income_range',
+            'became_member_on','membership_year']]
+    
+    profile_m = profile[['customer_id','F','M','O',
+            'GenZ(18–25)','Millennias(26-43)','GenXers(44-56)',
+            'Boomers(57-75)','Matures(76+)',
+            '$50,000 - $74,999','$75,000 - $99,999','$100K',
+            2013, 2014, 2015, 2016, 2017, 2018]]
+
+    return profile_da , profile_m
     
 
 
@@ -180,5 +208,5 @@ def clean_transcript(transcript =transcript):
     #offers = offers[['offer_id','customer_id', 'time_in_days', 'completed',
            #'received', 'viewed']]
     
-    return offers,transactions 
+    return offers,transactions
 
