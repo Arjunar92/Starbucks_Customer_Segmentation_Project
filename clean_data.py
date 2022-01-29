@@ -210,3 +210,26 @@ def clean_transcript(transcript =transcript):
     
     return offers,transactions
 
+
+
+def offer_success(column):
+
+    offer_name = offers_portfolio[column].unique()
+
+    all_res = []
+    for offer in offer_name:
+
+        success = offers_portfolio[offers_portfolio[column] == offer].groupby(['customer_id']).agg({'received': 'sum' ,
+                                                                                                          'viewed':'sum' ,
+                                                                                                          'completed': 'sum'})
+        offer_count= success.add_suffix('_count')
+        col_name = list(offer_count.columns)
+        offer_count['view_rate'] = offer_count[col_name[1]]/offer_count[col_name[0]]
+        offer_count['completed_rate'] = offer_count[col_name[2]]/offer_count[col_name[1]]
+        offer_count[offer_count['completed_rate']> 1] = 1
+        offer_count = offer_count.add_prefix(column+'_'+str(offer)+'_')
+        offer_count.reset_index(inplace=True)
+
+        all_res.append(offer_count)
+    
+    return all_res
