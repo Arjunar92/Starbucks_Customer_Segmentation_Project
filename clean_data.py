@@ -212,7 +212,25 @@ def clean_transcript(transcript =transcript):
 
 
 
-def offer_success(column):
+def offer_success(offers_portfolio, column):
+    
+    """
+    This procedure is to create the following features:
+    
+    -Offer recieved count
+    -Offer Viewed count/viewed rate
+    -Offer complted count/completed rate
+    
+    For each of Offer type, Offer name, offer difficulty, offer durtion, offer reward
+    
+    INPUT: 
+    - offers_portfolio: Offer_portfolio dataframe
+    - column: column name for which the feature must be created. ed - offer_type, offer_name
+    
+    OUTPUT:
+    - all_res: A list of dataframe
+    
+    """
 
     offer_name = offers_portfolio[column].unique()
 
@@ -224,12 +242,141 @@ def offer_success(column):
                                                                                                           'completed': 'sum'})
         offer_count= success.add_suffix('_count')
         col_name = list(offer_count.columns)
-        offer_count['view_rate'] = offer_count[col_name[1]]/offer_count[col_name[0]]
+        offer_count['viewed_rate'] = offer_count[col_name[1]]/offer_count[col_name[0]]
         offer_count['completed_rate'] = offer_count[col_name[2]]/offer_count[col_name[1]]
         offer_count[offer_count['completed_rate']> 1] = 1
         offer_count = offer_count.add_prefix(column+'_'+str(offer)+'_')
-        offer_count.reset_index(inplace=True)
+        #offer_count.reset_index(inplace=True)
 
         all_res.append(offer_count)
     
     return all_res
+
+
+
+
+
+
+def offer_success_channel(offers_portfolio):
+    
+    """
+    This procedure is to create the following features:
+    
+    -Offer recieved count
+    -Offer Viewed count/viewed rate
+    -Offer complted count/completed rate
+    
+    For each of 'mobile','social','web','email' channels
+    
+    INPUT: 
+    - offers_portfolio: Offer_portfolio dataframe
+    - column: column name for which the feature must be created. eg - 'mobile','social','web','email' channels
+    
+    OUTPUT:
+    - all_res: A list of dataframe
+    
+    """    
+    all_res = []
+    
+    columns = ['mobile','social','web','email']
+    for column in columns:
+        success = offers_portfolio[(offers_portfolio[column] == 1) & 
+                                   (offers_portfolio['offer_type'] != "informational")].groupby(['customer_id']).agg({'received': 'sum' ,'viewed':'sum' ,'completed': 'sum'})
+        
+        offer_count= success.add_suffix('_count')
+        col_name = list(offer_count.columns)
+        offer_count['viewed_rate'] = offer_count[col_name[1]]/offer_count[col_name[0]]
+        offer_count['completed_rate'] = offer_count[col_name[2]]/offer_count[col_name[1]]
+        offer_count[offer_count['completed_rate']> 1] = 1
+        offer_count = offer_count.add_prefix(column+'_')
+        #offer_count.reset_index(inplace=True)
+        
+        all_res.append(offer_count)
+        
+    return all_res
+
+
+
+def plot_data(df,demo,groupby,palette,col_wrap,height,label_rotation):
+    
+    """
+    This procedue is used to create aggregate measures per demographic group, and then plot those measures in rplot
+    
+    
+    INPUT: 
+    
+    -Data input
+    --df: input profile_offer dataframe with the measures to be aggrigated. 
+    --demo: input profile_offer dataframe
+    --groupby: input the domographic group you want to aggrigate for
+    
+    -Variables for Data visualization
+    --palette: Input the No of color palatte for the bar plot
+    --col_wrap: Input th enumber of column in the grid
+    --height: Input the height of the plot
+    --label_rotation: Input degrees to which X-axis labels need to be rotated.
+
+    
+    OUTPUT:
+    - df: return dataframe with te aggregated measures and the plot
+    
+    """       
+    
+    
+    df = df.join(demo[groupby])
+    df = df.copy().reset_index()
+    df = df.melt(id_vars=['customer_id', groupby],ignore_index = True)
+    df = df.groupby([groupby, 'variable']).mean().reset_index()
+    df = df[df['variable']!='index']
+    starbucks = ["#008248", "#604c4c", "#eac784", "#f0cddb", "#6B9997"]
+    
+    sns.set_palette(sns.color_palette(starbucks,palette))
+    g = sns.FacetGrid(df, col='variable', hue= groupby, col_wrap=col_wrap, height=height, sharey=False)
+    g = g.map(plt.bar, groupby, 'value').set_titles("{col_name}")
+    g.set_xticklabels(rotation = label_rotation)
+    g.tight_layout()
+    
+    
+    return df
+
+
+def plot_data_overall(df,palette,label_rotation, order):
+    
+    
+    """
+    This procedue is used to create overall aggregate measures and then plot
+    
+    
+    INPUT: 
+    
+    -Data input
+    --df: input profile_offer dataframe with the measures to be aggrigated.
+    
+    -Variables for Data visualization
+    --palette: Input the No of color palatte for the bar plot.
+    --label_rotation: Input degrees to which X-axis labels need to be rotated.
+    --order: input list of variables in the same order as how should appear in plot
+
+    
+    OUTPUT:
+    - df: return dataframe with te aggregated measures and the plot
+    
+    """    
+    
+    df = df.copy().reset_index()
+    df = df.melt(id_vars=['customer_id'],ignore_index = True)
+    df = df.groupby(['variable']).mean().reset_index()
+    df = df[df['variable']!='index']
+    df
+    starbucks = ["#008248", "#604c4c", "#eac784", "#f0cddb", "#6B9997"]
+    plt.figure(figsize=(3, 3))
+    g = sns.barplot(data=df, x="variable", y="value", order = order)
+    g.set_xticklabels(g.get_xticklabels(), rotation=label_rotation)
+
+    sns.set_palette(sns.color_palette(starbucks,palette))
+    
+    
+    
+    return df
+        
+
