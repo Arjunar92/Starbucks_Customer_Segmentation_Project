@@ -7,6 +7,12 @@ import math
 from sklearn.preprocessing import LabelBinarizer, MultiLabelBinarizer
 import seaborn as sns #For Data visualization
 
+
+import matplotlib
+
+import matplotlib.pyplot as plt
+
+
 #%matplotlib inline
 
 # read in the json files
@@ -102,7 +108,7 @@ def clean_profile(profile = profile):
         
     #rename profile columns
     new_col_profile = {'id':'customer_id' , 'income':'customer_income'}
-    profile = rename_cols(profile, new_col_profile )
+    profile  = profile.rename(columns= new_col_profile )
     
     #Removed those with no income data
     profile = profile[profile['customer_income'].notnull()]
@@ -129,10 +135,10 @@ def clean_profile(profile = profile):
     
     
     #Group the Salary ranges
-    sal_labels = ['Under $25K',' $25,000 - $49,999','$50,000 - $74,999','$75,000 - $99,999', '$100K']
+    sal_labels = ['Under $50K','$50,000 - $74,999','$75,000 - $99,999', '$100K+']
     
     profile['customer_income_range'] = pd.cut(profile['customer_income'], 
-                                                      bins=[1, 25000, 49999, 74999, 99999, 150000] , 
+                                                      bins=[1, 49999, 74999, 99999, 150000] , 
                                   labels=sal_labels, include_lowest=True)
     # Encode for Age ranges
     salrange_df = pd.get_dummies(profile['customer_income_range'])
@@ -161,8 +167,8 @@ def clean_profile(profile = profile):
     
     profile_m = profile[['customer_id','F','M','O',
             'GenZ(18–25)','Millennias(26-43)','GenXers(44-56)',
-            'Boomers(57-75)','Matures(76+)',
-            '$50,000 - $74,999','$75,000 - $99,999','$100K',
+            'Boomers(57-75)','Matures(76+)', 'Under $50K',
+            '$50,000 - $74,999','$75,000 - $99,999','$100K+',
             2013, 2014, 2015, 2016, 2017, 2018]]
 
     return profile_da , profile_m
