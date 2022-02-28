@@ -386,3 +386,48 @@ def plot_data_overall(df,palette,label_rotation, order):
     return df
         
 
+def plot_data_sum(df,demo,groupby,palette,col_wrap,height,label_rotation):
+    
+    """
+    This procedue is used to create aggregate measures per demographic group, and then plot those measures in rplot
+    
+    
+    INPUT: 
+    
+    -Data input
+    --df: input profile_offer dataframe with the measures to be aggrigated. 
+    --demo: input profile_offer dataframe
+    --groupby: input the domographic group you want to aggrigate for
+    
+    -Variables for Data visualization
+    --palette: Input the No of color palatte for the bar plot
+    --col_wrap: Input th enumber of column in the grid
+    --height: Input the height of the plot
+    --label_rotation: Input degrees to which X-axis labels need to be rotated.
+
+    
+    OUTPUT:
+    - df: return dataframe with the aggregated measures and the plot
+    
+    """       
+    
+    #Aggrigate measure(sum) grouped by demographics 
+    
+    df = df.join(demo[groupby])
+    df = df.copy().reset_index()
+    df = df.melt(id_vars=['customer_id', groupby],ignore_index = True)
+    df = df.groupby([groupby, 'variable']).sum().reset_index()
+    df = df[df['variable']!='index']
+    
+    #Official Starbucks color palatte
+    starbucks = ["#008248", "#604c4c", "#eac784", "#f0cddb", "#6B9997"]
+    sns.set_palette(sns.color_palette(starbucks,palette))
+    
+    #Plot and visualize data in a grid
+    g = sns.FacetGrid(df, col='variable', hue= 'variable', col_wrap=col_wrap, height=height, sharey=False)
+    g = g.map(plt.bar, groupby, 'value').set_titles("{col_name}")
+    g.set_xticklabels(rotation = label_rotation)
+    g.tight_layout()
+    
+    #Return aggregate data
+    return df
