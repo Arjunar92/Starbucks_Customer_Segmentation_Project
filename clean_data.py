@@ -5,7 +5,7 @@ import math
 
 
 from sklearn.preprocessing import LabelBinarizer, MultiLabelBinarizer
-import seaborn as sns #For Data vizualization
+import seaborn as sns #For Data visualization
 
 
 import matplotlib
