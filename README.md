@@ -8,6 +8,8 @@
 This Project is the final project for the completion of the Udacity Data Science Nanodegree Program in collaboration with Starbucks. This data set contains simulated data that mimics customer behavior on the Starbucks rewards mobile app. This data set contains three files. 
 
 **portfolio.json**
+
+
 * id (string) - offer id
 * offer_type (string) - type of offer ie BOGO, discount, informational
 * difficulty (int) - minimum required spend to complete an offer
@@ -30,6 +32,7 @@ This Project is the final project for the completion of the Udacity Data Science
 
 
 ## Project Goal:
+
 The objective of this project is to identify different customer segments using RFM analysis and then asses the demographic distribution and offer success rates for each of the customer segments. This analysis would help Starbucks in identfying what offers works best for each of its customer segment and how it varies with each demographic groups.  
 
 
