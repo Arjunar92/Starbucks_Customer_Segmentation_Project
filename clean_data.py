@@ -81,6 +81,7 @@ def clean_portfolio(portfolio=portfolio):
     #Replace the 'offertype' and 'channels' columns
     portfolio = pd.concat([portfolio, channels_df], axis=1)
     
+    
     #Reorder the columns order
     portfolio = portfolio[[ 'offer_id','offer_name','offer_type' ,'offer_difficulty','offer_duration',
                            'offer_reward','email','mobile','social','web']]
