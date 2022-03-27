@@ -41,6 +41,7 @@ The objective of this project is to identify different customer segments using R
 * Data Exploration:
 * Data Cleaning and Data Structuring:
 * Data Publishing:
+* 
 
 ## II. Data Analysis:
 
