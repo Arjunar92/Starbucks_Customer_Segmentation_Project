@@ -44,6 +44,7 @@ The objective of this project is to identify different customer segments using R
 * 
 
 ## II. Data Analysis:
+analyzing data
 
 ## III. Customer Segmentation using RFM Analysis
 
