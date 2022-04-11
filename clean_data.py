@@ -303,11 +303,10 @@ def offer_success_channel(offers_portfolio):
 
 
 
-def plot_data(df,demo,groupby,palette,col_wrap,height,label_rotation):
+def plot_data(df,demo,groupby,palette, col_wrap,height,label_rotation):
     
     """
-    This procedue is used to create aggregate measures per demographic group, and then plot those measures in rplot
-    
+    This procedue is used to create aggregate measures per demographic group, and then plot those measures in plot
     
     INPUT: 
     
@@ -326,23 +325,25 @@ def plot_data(df,demo,groupby,palette,col_wrap,height,label_rotation):
     OUTPUT:
     - df: return dataframe with te aggregated measures and the plot
     
-    """       
+    """   
     
-    
+    #Aggrigate measure(sum) grouped by demographics 
     df = df.join(demo[groupby])
     df = df.copy().reset_index()
     df = df.melt(id_vars=['customer_id', groupby],ignore_index = True)
     df = df.groupby([groupby, 'variable']).mean().reset_index()
     df = df[df['variable']!='index']
-    starbucks = ["#008248", "#604c4c", "#eac784", "#f0cddb", "#6B9997"]
     
-    sns.set_palette(sns.color_palette(starbucks,palette))
+    #Official Starbucks color palatte
+    sns.set_palette(sns.color_palette(palette))
+    
+    #Plot and visualize data in a grid
     g = sns.FacetGrid(df, col='variable', hue= groupby, col_wrap=col_wrap, height=height, sharey=False)
     g = g.map(plt.bar, groupby, 'value').set_titles("{col_name}")
     g.set_xticklabels(rotation = label_rotation)
     g.tight_layout()
     
-    
+    #Return aggregate data grouped by demographic variable entered in 'groupby'
     return df
 
 
@@ -368,18 +369,19 @@ def plot_data_overall(df,palette,label_rotation, order):
     - df: return dataframe with te aggregated measures and the plot
     
     """    
+    #Aggrigate measure(mean) grouped by demographics 
     
     df = df.copy().reset_index()
     df = df.melt(id_vars=['customer_id'],ignore_index = True)
     df = df.groupby(['variable']).mean().reset_index()
     df = df[df['variable']!='index']
-    df
-    starbucks = ["#008248", "#604c4c", "#eac784", "#f0cddb", "#6B9997"]
+    
+    
+    #Plot and visualize data in a grid
     plt.figure(figsize=(3, 3))
     g = sns.barplot(data=df, x="variable", y="value", order = order)
     g.set_xticklabels(g.get_xticklabels(), rotation=label_rotation)
-
-    sns.set_palette(sns.color_palette(starbucks,palette))
+    sns.set_palette(sns.color_palette(palette))
     
     
     
@@ -420,8 +422,7 @@ def plot_data_sum(df,demo,groupby,palette,col_wrap,height,label_rotation):
     df = df[df['variable']!='index']
     
     #Official Starbucks color palatte
-    starbucks = ["#008248", "#604c4c", "#eac784", "#f0cddb", "#6B9997"]
-    sns.set_palette(sns.color_palette(starbucks,palette))
+    sns.set_palette(sns.color_palette(palette))
     
     #Plot and visualize data in a grid
     g = sns.FacetGrid(df, col='variable', hue= 'variable', col_wrap=col_wrap, height=height, sharey=False)
