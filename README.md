@@ -74,15 +74,28 @@ Perform data structuring by converting the data types into an appropriate format
 
 ## Part 2: Customer Segmentation:
 
-## (A). Customer Segementation using RFM Analysis: 
+### (A). Customer Segementation using RFM Analysis: 
 
 ### I. Modeling
+* Method1: RFM Using K-Means
+* Method 2: RFM Using ranking
+
 ### II. Model Evaluation
+* Method 1 VS Method 2
+ 
 ### III. Visualizatoon and Analysis
+* Visualize Segment wise offer performance and provide insights. 
 
-
-## (B). Customer Segmentation: Cluster Analysis: 
+### (B). Customer Segmentation: Cluster Analysis: 
 
 ### I. Modeling
+* K-means clustering 
+* Hierarchical clustering
+
 ### II. Model Evaluation
+*  K-means clustering VS Hierarchical clustering
+
 ### III. Visualizatoon and Analysis
+* Visualize Segment wise offer performance and provide insights. 
+
+## Final Conclusion
