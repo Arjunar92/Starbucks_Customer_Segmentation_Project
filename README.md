@@ -67,22 +67,22 @@ Perform data structuring by converting the data types into an appropriate format
 
 ## Part 1: Analyze Overall Offer Performance
 
-## I. Modeling
-## II. Model Evaluation
-## III. Visualizatoon and Analysis
+### I. Modeling
+### II. Model Evaluation
+### III. Visualizatoon and Analysis
 
 
 ## Part 2: Customer Segmentation:
 
 ## (A). Customer Segementation using RFM Analysis: 
 
-## I. Modeling
-## II. Model Evaluation
-## III. Visualizatoon and Analysis
+### I. Modeling
+### II. Model Evaluation
+### III. Visualizatoon and Analysis
 
 
 ## (B). Customer Segmentation: Cluster Analysis: 
 
-## I. Modeling
-## II. Model Evaluation
-## III. Visualizatoon and Analysis
+### I. Modeling
+### II. Model Evaluation
+### III. Visualizatoon and Analysis
