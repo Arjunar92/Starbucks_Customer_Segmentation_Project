@@ -67,9 +67,7 @@ Perform data structuring by converting the data types into an appropriate format
 
 ## Part 1: Analyze Overall Offer Performance
 
-### I. Modeling
-### II. Model Evaluation
-### III. Visualizatoon and Analysis
+### I. Visualizatoon and Analysis
 
 
 ## Part 2: Customer Segmentation:
