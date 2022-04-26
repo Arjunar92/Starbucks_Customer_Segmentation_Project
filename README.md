@@ -100,7 +100,7 @@ Perform data structuring by converting the data types into an appropriate format
 
 ## Results
 
-Medium post [here](-----------). 
+Medium post [here](https://arjunachuthan.medium.com/starbucks-customer-segmentation-using-rfm-and-cluster-analysis-93ce2404cc27). 
 Github code [here](--)
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
