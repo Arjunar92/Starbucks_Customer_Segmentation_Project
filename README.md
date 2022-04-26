@@ -97,3 +97,12 @@ Perform data structuring by converting the data types into an appropriate format
 * Visualize Segment wise offer performance and provide insights. 
 
 ## Final Conclusion
+
+## Results
+
+Medium post [here](-----------). 
+Github code [here](--)
+
+## Licensing, Authors, Acknowledgements<a name="licensing"></a>
+
+Thanks to Udacity and Starbucks for the dataset. (https://www.udacity.com/course/data-scientist-nanodegree--nd025)
