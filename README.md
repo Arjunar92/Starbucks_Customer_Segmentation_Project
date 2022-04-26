@@ -1,4 +1,4 @@
-# Udacity Data Science NCapstone Project
+# Udacity Data Science Capstone Project
 
 ## Customer Segmentation Starbucks
 
