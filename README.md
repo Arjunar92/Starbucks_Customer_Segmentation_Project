@@ -2,11 +2,9 @@
 
 ## Customer Segmentation Starbucks
 
-
 ## Introduction:
 
 This Project is the final project for the completion of the Udacity Data Science Nanodegree Program in collaboration with Starbucks. This data set contains simulated data that mimics customer behavior on the Starbucks rewards mobile app. This data set contains three files. 
-
 
 ## Project Goal:
 
@@ -17,10 +15,7 @@ The major focus of the project will be to analyze the offer performance across d
 * Explore different segmentation techniques and suggest the best suited for the business.
 * Implement project using CRISP-DM methodology. 
 
-## CRISP-DM methodology
-
-CRISP-DM stands for Cross-Industry Process for Data Mining. The CRISP-DM methodology provides a structured approach to planning a data mining project.
-The CRISP-DM process model has six major phases:
+## Project Methodology
 
 * Business Understanding
 * Data Understanding
